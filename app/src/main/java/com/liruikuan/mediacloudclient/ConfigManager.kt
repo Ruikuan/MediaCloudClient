@@ -21,7 +21,6 @@ class configManager {
     }
 
     fun saveServer(server: String) {
-        if (server == null) throw NullPointerException()
         currentServer = server
         SaveServerToStore(server)
     }
