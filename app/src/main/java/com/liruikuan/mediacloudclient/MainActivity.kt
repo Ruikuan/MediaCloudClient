@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         var fileList = ServiceManager().getFiles(pathToList)
         fileMap = fileList.associateBy({ it.name }, { it })
         var source = fileList.map { hashMapOf("name" to it.name, "icon" to getIcon(it)) }
-        var adapter = SimpleAdapter(applicationContext, source, R.layout.file_item, arrayOf("name", "icon"), arrayOf(R.id.file_icon, R.id.file_name).toIntArray())
+        var adapter = SimpleAdapter(applicationContext, source, R.layout.file_item, arrayOf("name", "icon"), arrayOf(R.id.file_name, R.id.file_icon).toIntArray())
         main_view.adapter = adapter
     }
 
@@ -67,11 +67,6 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // 处理动作按钮的点击事件
         when (item.itemId) {
-            R.id.action_search -> {
-                //openSearch();
-                setText("search")
-                return true
-            }
             R.id.action_settings -> {
                 //openSettings();
                 setText("setting")
