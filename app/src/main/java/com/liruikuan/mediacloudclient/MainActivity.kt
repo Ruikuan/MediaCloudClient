@@ -53,23 +53,28 @@ class MainActivity : AppCompatActivity() {
             pathToList = path
         }
         launch(UI) {
-            val call = serviceManager.getFiles(pathToList)
-            val fileList = call.await()
-            m_fileList = fileList;
-            val source = fileList.map { hashMapOf("name" to it.name, "icon" to getIcon(it)) }
-            val adapter = SimpleAdapter(applicationContext, source, R.layout.file_item, arrayOf("name", "icon"), arrayOf(R.id.file_name, R.id.file_icon).toIntArray())
-            main_view.adapter = adapter
-            main_view.setOnItemClickListener { _, _, position, _ ->
-                run {
-                    val fileInfo = m_fileList!![position]
-                    if (fileInfo.isDirectory) {
-                        navigateTo(fileInfo.fileUrl)
-                    } else {
-                        if (isMediaFile(fileInfo.name)) {
-                            playMedia(fileInfo.fileUrl)
+            try {
+                val call = serviceManager.getFiles(pathToList)
+                val fileList = call.await()
+                m_fileList = fileList;
+                val source = fileList.map { hashMapOf("name" to it.name, "icon" to getIcon(it)) }
+                val adapter = SimpleAdapter(applicationContext, source, R.layout.file_item, arrayOf("name", "icon"), arrayOf(R.id.file_name, R.id.file_icon).toIntArray())
+                main_view.adapter = adapter
+                main_view.setOnItemClickListener { _, _, position, _ ->
+                    run {
+                        val fileInfo = m_fileList!![position]
+                        if (fileInfo.isDirectory) {
+                            navigateTo(fileInfo.fileUrl)
+                        } else {
+                            if (isMediaFile(fileInfo.name)) {
+                                playMedia(fileInfo.fileUrl)
+                            }
                         }
                     }
                 }
+            }catch (ex:Exception)
+            {
+               // just don't do anything.
             }
         }
     }
