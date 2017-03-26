@@ -1,21 +1,26 @@
 package com.liruikuan.mediacloudclient
 
-import android.support.annotation.NonNull
+import android.content.Context
+import java.io.File
 
 /**
  * Created by liruikuan on 2017/3/25.
  */
-class ConfigManager {
-    //todo: not set a magic string for test. need set to null.
-    fun loadServer(): String {
+class ConfigManager(var context: Context) {
+
+    fun loadServer(): String? {
         if (currentServer == null) {
             currentServer = loadServerFromStore()
         }
-        return currentServer!!
+        return currentServer
     }
 
-    private fun loadServerFromStore(): String {
-        throw NotImplementedError("not finish yet")
+    private fun loadServerFromStore(): String? {
+        var file = context.getFileStreamPath(configFileName)
+        if (file.isFile && file.canRead()) {
+            return file.readText()
+        }
+        return null
     }
 
     fun saveServer(server: String) {
@@ -24,10 +29,13 @@ class ConfigManager {
     }
 
     private fun saveServerToStore(server: String) {
-        throw NotImplementedError("not finish yet")
+
+        var file = context.getFileStreamPath(configFileName)
+        file.writeText(server)
     }
 
     companion object {
-        var currentServer: String? = "http://localhost:8000"
+        var currentServer: String? = null
+        var configFileName: String = "server.txt"
     }
 }

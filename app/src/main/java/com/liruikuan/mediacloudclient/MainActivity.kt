@@ -10,12 +10,21 @@ import android.widget.SimpleAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private var configManager = ConfigManager()
+    private var configManager = ConfigManager(this)
+    private var serviceManager = ServiceManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        if(configManager.loadServer().isNullOrBlank())
+        {
+            openSettings()
+            return
+        }
         val path = intent.getStringExtra(MainActivity.EXTRA_PATH)
         listPathContents(path)
     }
@@ -41,7 +50,8 @@ class MainActivity : AppCompatActivity() {
         if (path != null) {
             pathToList = path
         }
-        var fileList = ServiceManager().getFiles(pathToList)
+        var fullPath = getFullPath(pathToList)
+        var fileList = serviceManager.getFiles(fullPath)
         m_fileList = fileList;
         var source = fileList.map { hashMapOf("name" to it.name, "icon" to getIcon(it)) }
         var adapter = SimpleAdapter(applicationContext, source, R.layout.file_item, arrayOf("name", "icon"), arrayOf(R.id.file_name, R.id.file_icon).toIntArray())
@@ -67,11 +77,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playMedia(url: String) {
-        var fullUrl = configManager.loadServer() + url
+        var fullUrl = getFullPath(url)
         var intent = Intent(Intent.ACTION_VIEW)
         intent.setDataAndType(Uri.parse(fullUrl), "video/*")
+        show_path.text = fullUrl
         startActivity(intent)
     }
+
+    private fun getFullPath(url: String): String
+            = "${configManager.loadServer()}$url"
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // 为ActionBar扩展菜单项

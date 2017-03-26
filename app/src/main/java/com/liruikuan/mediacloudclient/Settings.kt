@@ -7,13 +7,20 @@ import kotlinx.android.synthetic.main.activity_settings.*
 
 class Settings : AppCompatActivity() {
 
-    private var configManager = ConfigManager()
+    private var configManager = ConfigManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        edit_server.text.insert(0, configManager.loadServer())
+        var server = configManager.loadServer()
+        if (server == null) {
+            server = ""
+        }
+        edit_server.text.insert(0, server)
     }
 
-    fun saveServer(view: View) = configManager.saveServer(edit_server.text.toString())
+    fun saveServer(view: View) {
+        configManager.saveServer(edit_server.text.toString())
+        finish()
+    }
 }
