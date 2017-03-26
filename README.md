@@ -4,4 +4,5 @@ Just a simple Android client for MediaCloud Server. It will fetch server's file 
 
 I write it to run on my Skyworth E900 TV box.
 
-This project is just started. It's my first Andriod App, so the develop speed may be very slow.
+~~This project is just started. It's my first Andriod App, so the develop speed may be very slow.~~
+The app can run now, maybe no too robust, who know? 
