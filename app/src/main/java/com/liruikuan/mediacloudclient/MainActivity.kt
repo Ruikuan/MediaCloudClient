@@ -48,6 +48,8 @@ class MainActivity : AppCompatActivity() {
     private var m_fileList: List<MediaFileInfo>? = null
 
     private fun listPathContents(path: String?) {
+        if (m_fileList != null) return
+        
         var pathToList = "/"
         if (path != null) {
             pathToList = path
@@ -56,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 val call = serviceManager.getFiles(pathToList)
                 val fileList = call.await()
-                m_fileList = fileList;
+                m_fileList = fileList
                 val source = fileList.map { hashMapOf("name" to it.name, "icon" to getIcon(it)) }
                 val adapter = SimpleAdapter(applicationContext, source, R.layout.file_item, arrayOf("name", "icon"), arrayOf(R.id.file_name, R.id.file_icon).toIntArray())
                 main_view.adapter = adapter
@@ -72,9 +74,8 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
-            }catch (ex:Exception)
-            {
-               // just don't do anything.
+            } catch (ex: Exception) {
+                // just don't do anything.
             }
         }
     }
