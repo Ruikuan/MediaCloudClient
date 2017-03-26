@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun listPathContents(path: String?) {
         if (m_fileList != null) return
-        
+
         var pathToList = "/"
         if (path != null) {
             pathToList = path
