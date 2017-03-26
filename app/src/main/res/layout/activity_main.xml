@@ -8,10 +8,6 @@
     tools:context="com.liruikuan.mediacloudclient.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:id="@+id/show_path"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

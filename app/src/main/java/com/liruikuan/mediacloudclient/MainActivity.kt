@@ -8,10 +8,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.SimpleAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+
 
 class MainActivity : AppCompatActivity() {
     private var configManager = ConfigManager(this)
-    private var serviceManager = ServiceManager()
+    private var serviceManager = ServiceManager(configManager)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,8 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(configManager.loadServer().isNullOrBlank())
-        {
+        if (configManager.getServer().isNullOrBlank()) {
             openSettings()
             return
         }
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isMediaFile(fileName: String): Boolean {
-        var lowerName = fileName.toLowerCase()
+        val lowerName = fileName.toLowerCase()
         return mediaFileTypeList.any { lowerName.endsWith(it) }
     }
 
@@ -50,20 +52,22 @@ class MainActivity : AppCompatActivity() {
         if (path != null) {
             pathToList = path
         }
-        var fullPath = getFullPath(pathToList)
-        var fileList = serviceManager.getFiles(fullPath)
-        m_fileList = fileList;
-        var source = fileList.map { hashMapOf("name" to it.name, "icon" to getIcon(it)) }
-        var adapter = SimpleAdapter(applicationContext, source, R.layout.file_item, arrayOf("name", "icon"), arrayOf(R.id.file_name, R.id.file_icon).toIntArray())
-        main_view.adapter = adapter
-        main_view.setOnItemClickListener { _, _, position, _ ->
-            run {
-                var fileInfo = m_fileList!![position]
-                if (fileInfo.isDirectory) {
-                    navigateTo(fileInfo.fileUrl)
-                } else {
-                    if (isMediaFile(fileInfo.name)) {
-                        playMedia(fileInfo.fileUrl)
+        launch(UI) {
+            val call = serviceManager.getFiles(pathToList)
+            val fileList = call.await()
+            m_fileList = fileList;
+            val source = fileList.map { hashMapOf("name" to it.name, "icon" to getIcon(it)) }
+            val adapter = SimpleAdapter(applicationContext, source, R.layout.file_item, arrayOf("name", "icon"), arrayOf(R.id.file_name, R.id.file_icon).toIntArray())
+            main_view.adapter = adapter
+            main_view.setOnItemClickListener { _, _, position, _ ->
+                run {
+                    val fileInfo = m_fileList!![position]
+                    if (fileInfo.isDirectory) {
+                        navigateTo(fileInfo.fileUrl)
+                    } else {
+                        if (isMediaFile(fileInfo.name)) {
+                            playMedia(fileInfo.fileUrl)
+                        }
                     }
                 }
             }
@@ -71,24 +75,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateTo(path: String) {
-        var intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(EXTRA_PATH, path)
         startActivity(intent)
     }
 
     private fun playMedia(url: String) {
-        var fullUrl = getFullPath(url)
-        var intent = Intent(Intent.ACTION_VIEW)
+        val fullUrl = getFullPath(url)
+        val intent = Intent(Intent.ACTION_VIEW)
         intent.setDataAndType(Uri.parse(fullUrl), "video/*")
-        show_path.text = fullUrl
         startActivity(intent)
     }
 
     private fun getFullPath(url: String): String
-            = "${configManager.loadServer()}$url"
+            = "${configManager.getServer()}$url"
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // 为ActionBar扩展菜单项
         val inflater = menuInflater
         inflater.inflate(R.menu.main_activity_actions, menu)
         return super.onCreateOptionsMenu(menu)

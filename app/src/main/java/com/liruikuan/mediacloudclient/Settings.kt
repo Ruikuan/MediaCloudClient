@@ -12,7 +12,7 @@ class Settings : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        var server = configManager.loadServer()
+        var server = configManager.getServer()
         if (server == null) {
             server = ""
         }
@@ -20,7 +20,12 @@ class Settings : AppCompatActivity() {
     }
 
     fun saveServer(view: View) {
-        configManager.saveServer(edit_server.text.toString())
+        var server = edit_server.text.toString()
+        if(server.endsWith("/"))
+        {
+            server = server.substringBeforeLast("/")
+        }
+        configManager.saveServer(server)
         finish()
     }
 }

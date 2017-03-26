@@ -8,7 +8,7 @@ import java.io.File
  */
 class ConfigManager(var context: Context) {
 
-    fun loadServer(): String? {
+    fun getServer(): String? {
         if (currentServer == null) {
             currentServer = loadServerFromStore()
         }
