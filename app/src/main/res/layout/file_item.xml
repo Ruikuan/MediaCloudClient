@@ -10,7 +10,7 @@
         android:paddingLeft="8dp" />
     <TextView
         android:id="@+id/file_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
         android:textColor="#1D1D1C"

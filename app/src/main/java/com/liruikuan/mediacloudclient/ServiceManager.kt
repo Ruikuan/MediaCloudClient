@@ -6,10 +6,18 @@ package com.liruikuan.mediacloudclient
 
 class ServiceManager {
     fun getFiles(path: String): List<MediaFileInfo> {
-        var list = mutableListOf<MediaFileInfo>()
-        list.add(MediaFileInfo("movie",true,0L,"/movie/movie"))
-        list.add(MediaFileInfo("XE16OnTV_high.mp4",false,600L,"/movie/XE16OnTV_high.mp4"))
-        list.add(MediaFileInfo("孤独のグルメ EP01 720p x264 AAC-NGB.mkv",false,600L,"/movie/孤独のグルメ EP01 720p x264 AAC-NGB.mkv"))
-        return list
+        if(path == "/") {
+            var list = mutableListOf<MediaFileInfo>()
+            list.add(MediaFileInfo("movie", true, 0L, "/movie/movie"))
+            list.add(MediaFileInfo("XE16OnTV_high.mp4", false, 600L, "/movie/XE16OnTV_high.mp4"))
+            return list
+        }else
+        {
+            var list = mutableListOf<MediaFileInfo>()
+            list.add(MediaFileInfo("movie", true, 0L, "/movie/movie"))
+            list.add(MediaFileInfo("XE16OnTV_high.mp4", false, 600L, "/movie/XE16OnTV_high.mp4"))
+            list.add(MediaFileInfo("孤独のグルメ EP01 720p x264 AAC-NGB.mkv", false, 600L, "/movie/孤独のグルメ EP01 720p x264 AAC-NGB.mkv"))
+            return list
+        }
     }
 }

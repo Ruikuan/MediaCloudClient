@@ -5,10 +5,8 @@ import android.support.annotation.NonNull
 /**
  * Created by liruikuan on 2017/3/25.
  */
-class configManager {
+class ConfigManager {
     //todo: not set a magic string for test. need set to null.
-    private var currentServer: String? = "http://localhost:8000"
-
     fun loadServer(): String {
         if (currentServer == null) {
             currentServer = loadServerFromStore()
@@ -22,10 +20,14 @@ class configManager {
 
     fun saveServer(server: String) {
         currentServer = server
-        SaveServerToStore(server)
+        saveServerToStore(server)
     }
 
-    private fun SaveServerToStore(server: String) {
+    private fun saveServerToStore(server: String) {
         throw NotImplementedError("not finish yet")
+    }
+
+    companion object {
+        var currentServer: String? = "http://localhost:8000"
     }
 }
