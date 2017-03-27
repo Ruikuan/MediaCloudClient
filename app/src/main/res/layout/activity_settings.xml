@@ -5,10 +5,15 @@
     android:layout_height="match_parent"
     tools:context="com.liruikuan.mediacloudclient.Settings"
     android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Server Address:"/>
     <EditText
         android:id="@+id/edit_server"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="http://192.168.1.1:8000"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
