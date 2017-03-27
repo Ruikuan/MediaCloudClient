@@ -9,10 +9,4 @@ The app can run now, maybe not too robust, who know?
 
 ## Release
 
-Now a release apk is a available at http://pan.baidu.com/s/1nvDdMzf
-
-```
-MD5:    074D7F069E7DB6F741532EF2C7B8272E
-SHA1:   E102416973FA5D6E64412789ACFA08F8C58B2BE4
-SHA256: D1C9DACF1F5C09CD899F0248E0C63D520D0F32537E000EE90795B6643AB76ED3
-```
+Now a release apk is a available at http://pan.baidu.com/s/1mh7zYfI
