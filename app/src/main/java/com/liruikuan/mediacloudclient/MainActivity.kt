@@ -56,8 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
         launch(UI) {
             try {
-                val call = serviceManager.getFiles(pathToList)
-                val fileList = call.await()
+                var fileList = serviceManager.getFiles(pathToList).await()
                 m_fileList = fileList
                 val source = fileList.map { hashMapOf("name" to it.name, "icon" to getIcon(it)) }
                 val adapter = SimpleAdapter(applicationContext, source, R.layout.file_item, arrayOf("name", "icon"), arrayOf(R.id.file_name, R.id.file_icon).toIntArray())
@@ -120,6 +119,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         var EXTRA_PATH = "com.liruikuan.mediaCloudClient.PATH"
-        var mediaFileTypeList = listOf(".mp4", ".mkv", ".flv", ".mov", ".wmv", ".asf",".avi",".m4v",".mp4v",".mpeg",".mpg",".ts",".webm")
+        var mediaFileTypeList = listOf(".mp4", ".mkv", ".flv", ".mov", ".wmv", ".asf", ".avi", ".m4v", ".mp4v", ".mpeg", ".mpg", ".ts", ".webm")
     }
 }
