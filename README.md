@@ -5,7 +5,7 @@ Just a simple Android client for [MediaCloud Server](https://github.com/Ruikuan/
 I write it to run on my Skyworth E900 TV box, but other Android device can use it with pleasure, too.
 
 ~~This project is just started. It's my first Andriod App, so the develop speed may be very slow.~~  
-The app can run now, maybe no too robust, who know? 
+The app can run now, maybe not too robust, who know? 
 
 ## Release
 
