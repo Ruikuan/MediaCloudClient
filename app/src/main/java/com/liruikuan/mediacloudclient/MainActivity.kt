@@ -10,6 +10,9 @@ import android.widget.SimpleAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import android.content.pm.PackageManager
+import android.os.Debug
+import java.io.Console
 
 
 class MainActivity : AppCompatActivity() {
@@ -89,7 +92,18 @@ class MainActivity : AppCompatActivity() {
         val fullUrl = getFullPath(url)
         val intent = Intent(Intent.ACTION_VIEW)
         intent.setDataAndType(Uri.parse(fullUrl), "video/*")
-        startActivity(intent)
+        val resolveInfoList = packageManager.queryIntentActivities(intent, 0)
+
+        if (resolveInfoList.size > 0) {
+            for (resolveInfo in resolveInfoList) {
+                val name = resolveInfo.activityInfo.packageName
+                if (name.contains("mx")) {
+                    intent.setClassName(resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name)
+                    break
+                }
+            }
+            startActivity(intent)
+        }
     }
 
     private fun getFullPath(url: String): String
