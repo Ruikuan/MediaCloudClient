@@ -133,6 +133,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         var EXTRA_PATH = "com.liruikuan.mediaCloudClient.PATH"
-        var mediaFileTypeList = listOf(".mp4", ".mkv", ".flv", ".mov", ".wmv", ".asf", ".avi", ".m4v", ".mp4v", ".mpeg", ".mpg", ".ts", ".webm")
+        var mediaFileTypeList = listOf(".mp4", ".mkv", ".flv", ".mov", ".wmv", ".asf", ".avi", ".m4v", ".mp4v", ".mpeg", ".mpg", ".ts", ".webm", ".rm", ".rmvb")
     }
 }
