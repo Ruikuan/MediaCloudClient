@@ -10,9 +10,6 @@ import android.widget.SimpleAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import android.content.pm.PackageManager
-import android.os.Debug
-import java.io.Console
 
 
 class MainActivity : AppCompatActivity() {
@@ -84,9 +81,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playMedia(url: String) {
-        val fullUrl = getFullPath(url)
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.setDataAndType(Uri.parse(fullUrl), "video/*")
+        intent.setDataAndType(Uri.parse(url), "video/*")
         val resolveInfoList = packageManager.queryIntentActivities(intent, 0)
 
         if (resolveInfoList.size > 0) {
@@ -100,9 +96,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
-    private fun getFullPath(url: String): String
-            = "${configManager.getServer()}$url"
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
