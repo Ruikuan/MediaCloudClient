@@ -36,16 +36,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun getIcon(fileInfo: MediaFileInfo): Int {
         if (fileInfo.isDirectory) return R.drawable.folder
-        if (isMediaFile(fileInfo.name)) {
+        if (fileInfo.isMediaFile) {
             return R.drawable.movie
         } else {
             return R.drawable.file
         }
-    }
-
-    private fun isMediaFile(fileName: String): Boolean {
-        val lowerName = fileName.toLowerCase()
-        return mediaFileTypeList.any { lowerName.endsWith(it) }
     }
 
     private var m_fileList: List<MediaFileInfo>? = null
@@ -70,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                         if (fileInfo.isDirectory) {
                             navigateTo(fileInfo.fileUrl)
                         } else {
-                            if (isMediaFile(fileInfo.name)) {
+                            if (fileInfo.isMediaFile) {
                                 playMedia(fileInfo.fileUrl)
                             }
                         }
@@ -133,6 +128,5 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         var EXTRA_PATH = "com.liruikuan.mediaCloudClient.PATH"
-        var mediaFileTypeList = listOf(".mp4", ".mkv", ".flv", ".mov", ".wmv", ".asf", ".avi", ".m4v", ".mp4v", ".mpeg", ".mpg", ".ts", ".webm", ".rm", ".rmvb")
     }
 }
